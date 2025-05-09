@@ -53,9 +53,9 @@ def notify_discord():
     if "alertThresholdExceeded" in data:
         threshold = float(data["alertThresholdExceeded"]) * 100
         alert_message = (
-            f"⚠️ **GCP 비용 경고** [{budget_name}]⚠️\n"
-            f"[**GCP 예산**] ❗ **${threshold:.0f}% 초과** ❗\n"
-            f"현재 사용액: `{cost_amount_formatted}`  / 예산 한도: `{budget_amount_formatted}`"
+            f"⚠️ **GCP 비용 경고** ⚠️\n"
+            f"[**{budget_name}**] ❗ **${threshold:.0f}% 초과** ❗\n"
+            f"현재 사용액: `{cost_amount_formatted}` / 예산 한도: `{budget_amount_formatted}`"
         )
 
     else:
@@ -65,7 +65,7 @@ def notify_discord():
             return "Skipped due to time filter", 200
 
         alert_message = (
-            f"📊 **GCP 사용량 리포트** [{budget_name}]\n"
+            f"📊 **GCP 사용량 리포트** [**{budget_name}**]\n"
             f"💰 현재 비용: **`{cost_amount_formatted}`** / 예산: **`{budget_amount_formatted}`**"
         )
         

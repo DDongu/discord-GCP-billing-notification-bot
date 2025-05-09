@@ -87,6 +87,6 @@ cloudbuild.googleapis.com
 
 - `2️⃣ 일일 비용 알림` 기능은 09:00~09:59 사이에 여러 번 전송될 수 있습니다.
 
-## 문의
+## 📬 문의
 
-Issues를 통해 부탁드립니다.
+문제가 있거나 개선 요청이 있다면 언제든지 [Issues](https://github.com/DDongu/discord-GCP-billing-notification-bot/issues)로 알려주세요!

@@ -21,19 +21,19 @@ def notify_discord():
     try:
         envelope = request.get_json(silent=True)
         if not envelope or "message" not in envelope:
-            print("[WARN] Empty or malformed Pub/Sub message. Ignoring.")
+            print("📌[WARN] Empty or malformed Pub/Sub message. Ignoring.")
             return "Ignored: no message", 200
 
         message = envelope["message"]
         data_encoded = message.get("data", "")
         if not data_encoded:
-            print("[WARN] No data in message. Ignoring.")
+            print("📌[WARN] No data in message. Ignoring.")
             return "Ignored: no data", 200
 
         data = json.loads(base64.b64decode(data_encoded).decode("utf-8"))
 
     except Exception as e:
-        print(f"[ERROR] Failed to parse request: {e}")
+        print(f"📌[ERROR] Failed to parse request: {e}")
         # Pub/Sub 재시도 방지를 위해 200 OK 반환
         return "Ignored malformed request", 200
 
@@ -61,7 +61,7 @@ def notify_discord():
     else:
         # 수정된 코드: 09:00 ~ 09:59 사이만 허용
         if not (now.hour == 9 and now.minute <= 59):
-            print(f"[INFO] Skipped periodic alert at {now.strftime('%H:%M')}")
+            print(f"📌[INFO] Skipped periodic alert at {now.strftime('%H:%M')}")
             return "Skipped due to time filter", 200
 
         alert_message = (
@@ -71,8 +71,8 @@ def notify_discord():
         
     try:
         requests.post(DISCORD_WEBHOOK_URL, json={"content": alert_message})
-        print("[INFO] Notification sent to Discord.")
+        print("📌[INFO] Notification sent to Discord.")
         return "OK", 200
     except Exception as e:
-        print(f"[ERROR] Failed to send Discord message: {e}")
+        print(f"📌[ERROR] Failed to send Discord message: {e}")
         return "Failed to send Discord message", 500

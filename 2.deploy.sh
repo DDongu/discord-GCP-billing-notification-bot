@@ -15,9 +15,15 @@ fi
 gcloud config set project "$SELECTED_PROJECT_ID"
 
 # --------------------------
-# 환경 변수 불러오기
+# 환경 변수 불러오기 및 Cloud Run에 전달될 형식으로 가공
 # --------------------------
-source .env
+if [[ ! -f .env ]]; then
+  echo "❌ .env 파일이 존재하지 않습니다. 종료합니다."
+  exit 1
+fi
+
+ENV_VARS=$(grep -v '^#' .env | grep '=' | xargs | sed 's/ /,/g')
+
 
 # --------------------------
 # 기본 변수 설정
@@ -49,6 +55,7 @@ gcloud run deploy $SERVICE_NAME \
   --source . \
   --region $REGION \
   --allow-unauthenticated \
+  --set-env-vars="$ENV_VARS" \
   --quiet
 
 echo "✅ Cloud Run 배포 완료."
